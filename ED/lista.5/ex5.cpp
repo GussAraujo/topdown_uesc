@@ -73,21 +73,28 @@ int main() {
     p.tamanho = 0;
 
     char simb;
-    string express = "^25";
+    string express = "-+254";
     int n = 0;
 
     while (express.length() != 0) {
+        // procura por um número
         do {
             simb = express[n];
             n++;
         } while (ehOperador(simb));
 
+        // transforma o simb (que é char) em int
         int a = simb - '0';
+        // pega o operador anterior a ele
         char op = express[n-2];
+        // pega o número após ele e tbm transforma em int
         int b = express[n] - '0';
 
+        // 2
+        // 0 1 2 3 4 5
         express.erase(n-2, n);
-        empilhar(&p, calcular(a, b, op));
+        int r =  calcular(a, b, op);
+        empilhar(&p, r);
         n = 0;
 
         if(express.length() == 1) {

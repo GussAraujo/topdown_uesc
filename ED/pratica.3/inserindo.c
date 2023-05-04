@@ -18,7 +18,6 @@ void inicia(node *LISTA) {
 void insereInicio(node *LISTA, int _info) {
     node *novo = (node *) malloc(sizeof(node));
     novo->info = _info;
-
     node *aux = LISTA->prox;
     LISTA->prox = novo;
     novo->prox = aux;
@@ -30,7 +29,7 @@ void insereFim(node *LISTA, int _info) {
     novo->prox = NULL;
 
     if(LISTA->prox == NULL)
-        LISTA->prox=novo;
+        LISTA->prox = novo;
     else{
         node *tmp = LISTA->prox;
 
