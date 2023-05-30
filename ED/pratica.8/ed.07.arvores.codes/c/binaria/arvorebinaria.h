@@ -116,7 +116,7 @@ void remFilhoEsq(arvore *a) {
 void remFilhoDir(arvore *a) {
   arvore *f = NULL;
 
-  if(a!=NULL) {
+  if(a != NULL) {
     f = a->filhoDireito;
     a->filhoDireito = NULL;
     if(f != NULL) {
