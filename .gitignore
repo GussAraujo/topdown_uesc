@@ -2,3 +2,4 @@
 .vscode
 *.c:Zone.Identifier
 .output
+.cph
