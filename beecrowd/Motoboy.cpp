@@ -11,7 +11,7 @@ int main() {
     cin >> sizeMax;
 
     for (int i = 0; i < n; i++)
-      cin >> T[i] >> P[i];
+      cin >> P[i] >> T[i];
     
     int result[n + 1][sizeMax + 1];
 
