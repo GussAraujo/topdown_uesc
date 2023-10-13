@@ -4,12 +4,10 @@ using namespace std;
 
 int main()
 {
-  int N, T, inst = 0;
+  int N, T, inst = 0, D[100] = {0}, P[600] = {0};
 
   while (cin >> N >> T && N != 0 && T != 0) {
     inst++;
-    
-    int D[N], P[N];
 
     for (int i = 0; i < N; i++)
       cin >> D[i] >> P[i];
