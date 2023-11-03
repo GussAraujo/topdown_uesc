@@ -3,3 +3,5 @@
 *.c:Zone.Identifier
 output/
 .cph
+.ccls-cache/
+*.out

@@ -18,16 +18,10 @@ int main()
     sort(N, N + t);
     sort(Q, Q + t);
 
-    int k = 0;
-
-    for (int i = 0; i < t; i++)
-    {
-        for (int j = k; j < t; j++)
-        {
-            if (N[i] > Q[j])
-            {
+    for (int i = 0; i < t; i++) {
+        for (int j = i; j < t; j++) {
+            if (N[i] >= Q[j]) {
                 cont++;
-                k++;
                 break;
             }
         }
