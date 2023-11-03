@@ -2,6 +2,6 @@
 .vscode
 *.c:Zone.Identifier
 output/
-.cph
+.cph/
 .ccls-cache/
 *.out
