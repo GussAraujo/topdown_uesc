@@ -1,0 +1,16 @@
+teorema: prova a formula fechada para 2^0 + 2^1 + ... + 2^(n - 1) = 2^n - 1, para n >= 1
+
+somatório de 1 até n - 1
+
+base: n = 1 => (2^1 - 1)
+                2 - 1
+                1 = 1, correto
+
+hipótese: suponhamos que a formula fechada seja válida para um k, k ∈ Z
+
+passo: vamos provar que a formula também vale para n + 1: 2^(n+1) - 1
+
+         2^0 + 2^1 + ... + 2^(n-1) = 2^n - 1
+   2^0 + 2^1 + ... + 2^(n-1) + 2^n = 2^n - 1 + 2^n
+                     2^n - 1 + 2^n = 2^n - 1 + 2^n
+                                   = 2^(n+1) - 1, c.q.d.
