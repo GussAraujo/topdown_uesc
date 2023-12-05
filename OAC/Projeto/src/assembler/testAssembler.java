@@ -20,7 +20,7 @@ public class testAssembler {
 		commandLine[1] = "%RPG0";
 		commandLine[2] = "%RPG1";
 
-		ass.proccessCommand(commandLine);
+		ass.processCommand(commandLine);
 		returnedObj = ass.getObjProgram();
 
 		assertEquals("0", returnedObj.get(0)); //the add code is 0

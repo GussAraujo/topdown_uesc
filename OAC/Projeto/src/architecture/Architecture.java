@@ -182,7 +182,7 @@ public class Architecture {
     commandsList.add("addRegReg");    // 0
     commandsList.add("addMemReg");    // 1
     commandsList.add("addRegMem");    // 2
-    commandsList.add("addImmRReg");   // 3
+    commandsList.add("addImmReg");    // 3
     commandsList.add("subRegReg");    // 4
     commandsList.add("subMemReg");    // 5
     commandsList.add("subRegMem");    // 6
@@ -195,7 +195,7 @@ public class Architecture {
     commandsList.add("jmp");          // 13
     commandsList.add("jn");           // 14
     commandsList.add("jz");           // 15
-    commandsList.add("jeq");          // 16
+    commandsList.add("jeq");          // 16 
     commandsList.add("jneq");         // 17
     commandsList.add("jgt");          // 18
     commandsList.add("jlw");          // 19
@@ -348,31 +348,31 @@ public class Architecture {
     ula.internalStore(1);
     ula.inc();
     ula.internalRead(1);
-    pc.internalStore(); // pc aponta para endere�o de Imm
+    pc.internalStore();
 
-    pc.read(); // pc escreve endere�o de Imm em extbus1
-    memory.read(); // memoria le o endere�o e escreve o dado (Imm)
-    ir.store(); // ir armazena o dado de Imm
-    ir.internalRead(); // ir escreve em intbus2
-    ula.internalStore(0); // ula armazena em reg0 o valor de intbus2
-    ula.inc(); // ula ++
+    pc.read();
+    memory.read();
+    ir.store();
+    ir.internalRead();
+    ula.internalStore(0);
+    ula.inc();
     ula.internalRead(1);
-    pc.internalStore(); // pc aponta para o endere�o do registrador
-    pc.read(); // pc escreve em extbus1
-    memory.read(); // memoria le e escreve o id do registrador
-    demux.setValue(extBus1.get()); // aponta para o registrador correto
-    registersInternalRead(); // registrador selecionado escreve em intbus1
-    ula.store(1); // ula armazena o dado de intbus1 no reg1
-    ula.add(); // ula faz a soma de reg0+reg1 e armazena em reg1
-    ula.internalRead(1); // ula escreve o resultado em intbus2
-    setStatusFlags(intBus2.get()); // atualiza flags
-    ula.read(1); // ula escreve o resultado em intbus1
-    registersInternalStore(); // registrador selecionado armazena o dado de intbus1
+    pc.internalStore();
+    pc.read();
+    memory.read();
+    demux.setValue(extBus1.get());
+    registersInternalRead();
+    ula.store(1);
+    ula.add();
+    ula.internalRead(1);
+    setStatusFlags(intBus2.get());
+    ula.read(1);
+    registersInternalStore();
     pc.internalRead();
     ula.internalStore(1);
     ula.inc();
     ula.internalRead(1);
-    pc.internalStore(); // pc aponta para proxima instru��o
+    pc.internalStore();
   }
 
   public void subRR() {
@@ -502,30 +502,30 @@ public class Architecture {
     ula.internalStore(1);
     ula.inc();
     ula.internalRead(1);
-    pc.internalStore(); // pc aponta para endere�o de Imm
-    pc.read(); // pc escreve endere�o de Imm em extbus1
-    memory.read(); // memoria le o endere�o e escreve o dado (Imm)
-    ir.store(); // ir armazena o dado de Imm
-    ir.internalRead(); // ir escreve em intbus2
-    ula.internalStore(0); // ula armazena em reg0 o valor de intbus2
-    ula.inc(); // ula ++
+    pc.internalStore();
+    pc.read();
+    memory.read();
+    ir.store();
+    ir.internalRead();
+    ula.internalStore(0);
+    ula.inc();
     ula.internalRead(1);
-    pc.internalStore(); // pc aponta para o endere�o do registrador
-    pc.read(); // pc escreve em extbus1
-    memory.read(); // memoria le e escreve o id do registrador
-    demux.setValue(extBus1.get()); // aponta para o registrador correto
-    registersInternalRead(); // registrador selecionado escreve em intbus1
-    ula.store(1); // ula armazena o dado de intbus1 no reg1
-    ula.sub(); // ula faz a soma de reg0+reg1 e armazena em reg1
-    ula.internalRead(1); // ula escreve o resultado em intbus2
-    setStatusFlags(intBus2.get()); // atualiza flags
-    ula.read(1); // ula escreve o resultado em intbus1
-    registersInternalStore(); // registrador selecionado armazena o dado de intbus1
+    pc.internalStore();
+    pc.read();
+    memory.read();
+    demux.setValue(extBus1.get());
+    registersInternalRead();
+    ula.store(1);
+    ula.sub();
+    ula.internalRead(1);
+    setStatusFlags(intBus2.get());
+    ula.read(1);
+    registersInternalStore();
     pc.internalRead();
     ula.internalStore(1);
     ula.inc();
     ula.internalRead(1);
-    pc.internalStore(); // pc aponta para proxima instru��o
+    pc.internalStore();
   }
 
   public void moveMR() {

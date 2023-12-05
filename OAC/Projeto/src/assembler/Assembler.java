@@ -24,14 +24,13 @@ public class Assembler {
 	private Architecture arch;
 	private ArrayList<String>commands;	
 	private ArrayList<String>labels;
-	private ArrayList<Integer> labelsAdresses;
+	private ArrayList<Integer> labelsAddresses;
 	private ArrayList<String>variables;
-	
 	
 	public Assembler() {
 		lines = new ArrayList<>();
 		labels = new ArrayList<>();
-		labelsAdresses = new ArrayList<>();
+		labelsAddresses = new ArrayList<>();
 		variables = new ArrayList<>();
 		objProgram = new ArrayList<>();
 		execProgram = new ArrayList<>();
@@ -55,7 +54,7 @@ public class Assembler {
 	}
 	
 	protected ArrayList<Integer> getLabelsAddresses() {
-		return labelsAdresses;
+		return labelsAddresses;
 	}
 	
 	protected ArrayList<String> getVariables() {
@@ -74,7 +73,6 @@ public class Assembler {
 		this.execProgram = lines;
 	}	
 	
-	
 	/*
 	 * An assembly program is always in the following template
 	 * <variables>
@@ -89,8 +87,6 @@ public class Assembler {
 	 * 		The assembly file must have the extention .dsf
 	 * 		The executable file must have the extention .dxf 	
 	 */
-	
-
 
 	/**
 	 * This method reads an entire file in assembly 
@@ -108,7 +104,6 @@ public class Assembler {
 			
 	}
 	
-
 	/**
 	 * This method scans the strings in lines
 	 * generating, for each one, the corresponding machine code
@@ -118,13 +113,13 @@ public class Assembler {
 		for (String s:lines) {
 			String tokens[] = s.split(" ");
 			if (findCommandNumber(tokens)>=0) { //the line is a command
-				proccessCommand(tokens);
+				processCommand(tokens);
 			}
 			else { //the line is not a command: so, it can be a variable or a label
 				if (tokens[0].endsWith(":")){ //if it ends with : it is a label
 					String label = tokens[0].substring(0, tokens[0].length()-1); //removing the last character
 					labels.add(label);
-					labelsAdresses.add(objProgram.size());
+					labelsAddresses.add(objProgram.size());
 				}
 				else //otherwise, it must be a variable
 					variables.add(tokens[0]);
@@ -133,107 +128,107 @@ public class Assembler {
 		
 	}
 
-
-
 	/**
 	 * This method processes a command, putting it and its parameters (if they have)
 	 * into the final array
 	 * @param tokens
 	 */
-	protected void proccessCommand(String[] tokens) {
-		String command = tokens[0];
+	protected void processCommand(String[] tokens) {
 		String parameter ="";
 		String parameter2 = "";
 		String parameter3 = "";
+
 		int commandNumber = findCommandNumber(tokens);
-		if (commandNumber == 0) { //must to proccess an add command
+
+		if (commandNumber == 0) { 
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 		}
-		else if (commandNumber == 1) { //must to proccess an sub command
+		else if (commandNumber == 1) { 
 			parameter = tokens[1];
-			parameter = "&"+parameter;//this is a flag to indicate that is a position in memory		
+			parameter = "&"+parameter;
 			parameter2 = tokens[2];
 		}
-		else if (commandNumber == 2) { //must to proccess an jmp command
-			parameter = tokens[1];
-			parameter2 = tokens[2];
-			parameter2 = "&"+parameter2;//this is a flag to indicate that is a position in memory
-		}
-		else if (commandNumber == 3) { //must to proccess an jz command
-			parameter = tokens[1];
-			parameter2 = tokens[2];
-		}
-		else if (commandNumber == 4) { //must to proccess an jn command
-			parameter = tokens[1];
-			parameter = "&"+parameter;//this is a flag to indicate that is a position in memory		
-			parameter2 = tokens[2];
-		}
-		else if (commandNumber == 5) { //must to proccess an read command
-			parameter = tokens[1];
-			parameter2 = tokens[2];
-			parameter2 = "&"+parameter2;//this is a flag to indicate that is a position in memory
-		}
-		else if (commandNumber == 6) { //must to proccess an store command
-			parameter = tokens[1];
-			parameter = "&"+parameter;//this is a flag to indicate that is a position in memory		
-			parameter2 = tokens[2];//this is a flag to indicate that is a position in memory
-		}
-		else if (commandNumber == 7) { //must to proccess an ldi command
+		else if (commandNumber == 2) { 
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter2 = "&"+parameter2;
 		}
-		else if (commandNumber == 8) { //must to proccess an inc command
+		else if (commandNumber == 3) { 
+			// TODO
+		}
+		else if (commandNumber == 4) { 
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 		}
-		else if (commandNumber == 9) { //must to proccess an moveRegReg command
+		else if (commandNumber == 5) { 
+			parameter = tokens[1];
+			parameter = "&"+parameter;
+			parameter2 = tokens[2];
+		}
+		else if (commandNumber == 6) { 
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter2 = "&"+parameter2;
+		}
+		else if (commandNumber == 7) { 
+			// TODO
+		}
+		else if (commandNumber == 8) { 
+			parameter = tokens[1];
+			parameter = "&"+parameter;
+			parameter2 = tokens[2];
+		}
+		else if (commandNumber == 9) { 
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter2 = "&"+parameter2;
+		}
+		else if (commandNumber == 10) { 
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 		}
-		else if (commandNumber == 10) { //must to proccess an moveRegReg command
+		else if (commandNumber == 11) { 
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+		}
+		else if (commandNumber == 12) { 
 			parameter = tokens[1];
 		}
-		else if (commandNumber == 11) { //must to proccess an moveRegReg command
-			parameter = tokens[1];
-			parameter = "&"+parameter;
-		}
-		else if (commandNumber == 12) { //must to proccess an moveRegReg command
-			parameter = tokens[1];
-			parameter = "&"+parameter;
-		}
-		else if (commandNumber == 13) { //must to proccess an moveRegReg command
+		else if (commandNumber == 13) {
 			parameter = tokens[1];
 			parameter = "&"+parameter;
 		}
-		else if (commandNumber == 14) { //must to proccess an moveRegReg command
+		else if (commandNumber == 14) {
 			parameter = tokens[1];
 			parameter = "&"+parameter;
 		}
-		else if (commandNumber == 15) { //must to proccess an moveRegReg command
+		else if (commandNumber == 15) {
 			parameter = tokens[1];
 			parameter = "&"+parameter;
 		}
-		else if (commandNumber == 16) { //must to proccess an moveRegReg command
+		else if (commandNumber == 16) { 
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter3 = tokens[3];
 			parameter3 = "&"+parameter3;
 		}
-		else if (commandNumber == 17) { //must to proccess an moveRegReg command
+		else if (commandNumber == 17) { 
+			// TODO
+		}
+		else if (commandNumber == 18) {
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter3 = tokens[3];
 			parameter3 = "&"+parameter3;
 		}
-		else if (commandNumber == 18) { //must to proccess an moveRegReg command
+		else if (commandNumber == 19) {
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter3 = tokens[3];
 			parameter3 = "&"+parameter3;
 		}
-		else if (commandNumber == 19) { //must to proccess an moveRegReg command
+		else if (commandNumber == 20) {
 			parameter = tokens[1];
 			parameter = "&"+parameter;
 		}
@@ -248,7 +243,96 @@ public class Assembler {
 			objProgram.add(parameter3);
 		}
 	}
-	
+
+	/**
+	 * This method process a move command.
+	 * It must have differents formats, meaning differents internal commands
+	 * @param tokens
+	 * @return
+	 */
+	private int processMove(String[] tokens) {
+		String p1 = tokens[1];
+		String p2 = tokens[2];
+		int p=-1;
+		if ((p1.startsWith("%")) && (p2.startsWith("%"))) { //this is a moveRegReg command
+			p = commands.indexOf("moveRegReg");
+		} else if(p1.startsWith("%")) {
+			p = commands.indexOf("moveRegMem");
+		} else if(p2.startsWith("%")) {
+			if(variables.indexOf(p1) >= 0) {
+				p = commands.indexOf("moveMemReg");
+			} else {
+				p = commands.indexOf("moveImmReg");
+			}
+		}
+		return p;
+	}
+
+	private int processAdd(String[] tokens) {
+		String p1 = tokens[1];
+		String p2 = tokens[2];
+		int p=-1;
+		if ((p1.startsWith("%"))&&(p2.startsWith("%"))) { 
+			p = commands.indexOf("addRegReg");
+		} else if(p2.startsWith("%")) {
+			p = commands.indexOf("addMemReg");
+		} else if(p1.startsWith("%")) {
+			p = commands.indexOf("addRegMem");
+		}
+		return p;
+	}
+
+	/**
+	 * This method process a sub command.
+	 * It must have differents formats, meaning differents internal commands
+	 * @param tokens
+	 * @return
+	 */
+	private int processSub(String[] tokens) {
+		String p1 = tokens[1];
+		String p2 = tokens[2];
+		int p=-1;
+		if ((p1.startsWith("%"))&&(p2.startsWith("%"))) { 
+			p = commands.indexOf("subRegReg");
+		} else if(p2.startsWith("%")) {
+			p = commands.indexOf("subMemReg");
+		} else if(p1.startsWith("%")) {
+			p = commands.indexOf("subRegMem");
+		}
+		return p;
+	}
+
+	/**
+	 * This method process a inc command.
+	 * It must have differents formats, meaning differents internal commands
+	 * @param tokens
+	 * @return
+	 */
+	private int processInc(String[] tokens) {
+		String p1 = tokens[1];
+		int p=-1;
+		if (p1.startsWith("%")) { 
+			p = commands.indexOf("incReg");
+		} else {
+			p = commands.indexOf("incMem");
+		}
+		return p;
+	}
+
+	protected void initializeStack(){
+		int pilha = arch.getMemorySize()-1-variables.size();
+		
+		execProgram.add(0, Integer.toString(commands.indexOf("moveImmReg")));
+		execProgram.add(1, Integer.toString(pilha));
+		execProgram.add(2, Integer.toString(searchRegisterId("stkTop", arch.getRegistersList())));
+		execProgram.add(3, Integer.toString(commands.indexOf("moveImmReg")));
+		execProgram.add(4, Integer.toString(pilha));
+		execProgram.add(5, Integer.toString(searchRegisterId("stkBottom", arch.getRegistersList())));
+		
+		for(int x = 0; x < labelsAddresses.size(); x++) {
+			labelsAddresses.set(x, labelsAddresses.get(x) + 6);
+		}
+	}
 
 	/**
 	 * This method uses the tokens to search a command
@@ -260,25 +344,15 @@ public class Assembler {
 	 */
 	private int findCommandNumber(String[] tokens) {
 		int p = commands.indexOf(tokens[0]);
-		if (p<0){ //the command isn't in the list. So it must have multiple formats
-			if ("move".equals(tokens[0])) //the command is a move
-				p = proccessMove(tokens);
-		}
-		return p;
-	}
-
-	/**
-	 * This method proccess a move command.
-	 * It must have differents formats, meaning differents internal commands
-	 * @param tokens
-	 * @return
-	 */
-	private int proccessMove(String[] tokens) {
-		String p1 = tokens[1];
-		String p2 = tokens[2];
-		int p=-1;
-		if ((p1.startsWith("%"))&&(p2.startsWith("%"))) { //this is a moveRegReg comand
-			p = commands.indexOf("moveRegReg");
+		if (p < 0){
+			if ("move".equals(tokens[0]))
+				p = processMove(tokens);
+			else if ("add".equals(tokens[0]))
+				p = processAdd(tokens);
+			else if ("sub".equals(tokens[0]))
+				p = processSub(tokens);
+			else if ("inc".equals(tokens[0]))
+				p = processInc(tokens);
 		}
 		return p;
 	}
@@ -300,6 +374,7 @@ public class Assembler {
 			return;
 		execProgram = (ArrayList<String>) objProgram.clone();
 		replaceAllVariables();
+		initializeStack();
 		replaceLabels(); //replacing all labels by the address they refer to
 		replaceRegisters(); //replacing all registers by the register id they refer to
 		saveExecFile(filename);
@@ -360,7 +435,7 @@ public class Assembler {
 		int i=0;
 		for (String label : labels) { //searching all labels
 			label = "&"+label;
-			int labelPointTo = labelsAdresses.get(i);
+			int labelPointTo = labelsAddresses.get(i);
 			int lineNumber = 0;
 			for (String l : execProgram) {
 				if (l.equals(label)) {//this label must be replaced by the address

@@ -1,0 +1,43 @@
+add %<regA> %<regB>    || RegB <- RegA + RegB
+
+add <mem> %<regA>      || RegA <- memória[mem] + RegA
+
+add %<regA> <mem>      || Memória[mem] <- RegA + memória[mem]
+
+add imm %<regA>        || RegA <- imm + RegA
+
+sub <regA> <regB>      || RegB <- RegA - RegB
+
+sub <mem> %<regA>      || RegA <- memória[mem] - RegA
+
+sub %<regA> <mem>      || memória[mem] <- RegA - memória[mem]
+
+sub imm %<regA>        || RegA <- imm - RegA
+
+move <mem> %<regA>     || RegA <- memória[mem]
+
+move %<regA> <mem>     || memória[mem] <- RegA
+
+move %<regA> %<regB>   || RegB <- RegA
+
+move imm %<regA>       || RegA <- immediate
+
+inc %<regA>            || RegA ++
+
+jmp <mem>              || PC <- mem (desvio incondicional)
+
+jn <mem>               || se última operação<0 então PC <- mem (desvio condicional)
+
+jz <mem>               || se última operação=0 então PC <- mem (desvio condicional)
+
+jeq %<regA> %<regB> <mem>   || se RegA==RegB então PC <- mem (desvio condicional)
+
+jneq %<regA> %<regB> <mem>   || se RegA!=RegB então PC <- mem (desvio condiciona
+
+jgt %<regA> %<regB> <mem>   || se RegA>RegB então PC <- mem (desvio condicional)
+
+jlw %<regA> %<regB> <mem>   || se RegA<RegB então PC <- mem (desvio condicional)
+
+call <mem>            || PC <- mem ((desvio incondicional) mas, antes de desviar,empilha o endereço de retorno (endereço da instrução imediatamente posterior ao call (push(PC++) )
+
+ret                            || PC <- pop() (desvio incondicional) 
