@@ -5,3 +5,4 @@ output/
 .cph/
 .ccls-cache/
 *.out
+bin/
