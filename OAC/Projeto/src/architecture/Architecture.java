@@ -221,7 +221,7 @@ public class Architecture {
     }
   }
 
-  public void addRR() {
+  public void addRegReg() {
     // pc++
     pc.internalRead();
     ula.store(1);
@@ -248,7 +248,7 @@ public class Architecture {
     ula.store(1);
     // operação
     ula.add(); // the result is in the second ula's internal register
-    ula.read(1); // the operation result is in the internalBus2
+    ula.read(1); // the operation result is in the internalBus1
     setStatusFlags(intBus1.get()); // changing flags due the end of the operation
     registersInternalStore();
     // pc++
@@ -259,7 +259,7 @@ public class Architecture {
     pc.internalStore();
   }
 
-  public void addMR() {
+  public void addMemReg() {
     // pc++
     pc.internalRead();
     ula.store(1);
@@ -298,7 +298,7 @@ public class Architecture {
     pc.internalStore();
   }
 
-  public void addRM() {
+  public void addRegMem() {
     // pc++
     pc.internalRead();
     ula.store(1);
@@ -343,13 +343,15 @@ public class Architecture {
     pc.internalStore();
   }
 
-  public void addIMMR() {
+  public void addImmReg() {
+    //pc++
     pc.internalRead();
     ula.internalStore(1);
     ula.inc();
-    ula.internalRead(1);
+    ula.internalRead(1); // mudar para read
     pc.internalStore();
 
+    // primeiro valor
     pc.read();
     memory.read();
     ir.store();
@@ -368,6 +370,7 @@ public class Architecture {
     setStatusFlags(intBus2.get());
     ula.read(1);
     registersInternalStore();
+    //pc++
     pc.internalRead();
     ula.internalStore(1);
     ula.inc();
@@ -375,7 +378,7 @@ public class Architecture {
     pc.internalStore();
   }
 
-  public void subRR() {
+  public void subRegReg() {
     // pc++
     pc.internalRead();
     ula.store(1);
@@ -413,7 +416,7 @@ public class Architecture {
     pc.internalStore();
   }
 
-  public void subMR() {
+  public void subMemReg() {
     // pc++
     pc.internalRead();
     ula.store(1);
@@ -452,7 +455,7 @@ public class Architecture {
     pc.internalStore();
   }
 
-  public void subRM() {
+  public void subRegMem() {
     // pc++
     pc.internalRead();
     ula.store(1);
@@ -497,7 +500,7 @@ public class Architecture {
     pc.internalStore();
   }
 
-  public void subIR() {
+  public void subImmReg() {
     pc.internalRead();
     ula.internalStore(1);
     ula.inc();
@@ -528,7 +531,7 @@ public class Architecture {
     pc.internalStore();
   }
 
-  public void moveMR() {
+  public void moveMemReg() {
     // pc++
     pc.internalRead();
     ula.store(1);
@@ -560,7 +563,7 @@ public class Architecture {
     pc.internalStore(); // now pc points to the next instruction. We go back to the FETCH status.
   }
 
-  public void moveRM() {
+  public void moveRegMem() {
     // pc++
     pc.internalRead();
     ula.store(1);
@@ -592,7 +595,7 @@ public class Architecture {
     pc.internalStore(); // now pc points to the next instruction. We go back to the FETCH status.
   }
 
-  public void moveRR() {
+  public void moveRegReg() {
     // pc++
     pc.internalRead();
     ula.store(1);
@@ -623,36 +626,40 @@ public class Architecture {
     pc.internalStore(); // now pc points to the next instruction. We go back to the FETCH status.
   }
 
-  public void moveIR() {
-    // pc++
-    pc.internalRead();
-    ula.store(1);
-    ula.inc();
-    ula.read(1);
-    pc.internalStore();
-    pc.read();
-    memory.read();
-    ir.store();
-    // pc++
-    pc.internalRead();
-    ula.store(1);
-    ula.inc();
-    ula.read(1);
-    pc.internalStore(); // now pc points to the second parameter (the second reg id)
-    pc.read();
-    memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
-    ir.read();
-    registersStore(); // starts the read from the register identified into demux bus
-    // pc++
-    pc.internalRead();
-    ula.store(1);
-    ula.inc();
-    ula.read(1);
-    pc.internalStore(); // now pc points to the next instruction. We go back to the FETCH status.
+  public void moveImmReg() {
+	//pc++
+			pc.internalRead();
+			ula.store(1);
+			ula.inc();
+			ula.read(1);
+			pc.internalStore();
+			
+			pc.read();
+			memory.read();
+			ir.store();
+			
+			//pc++
+			pc.internalRead();
+			ula.store(1);
+			ula.inc();
+			ula.read(1);
+			pc.internalStore(); //now pc points to the second parameter (the second reg id)
+			
+			pc.read();
+			memory.read();
+			demux.setValue(extBus1.get()); //points to the correct register
+			ir.read();
+			registersStore(); //starts the read from the register identified into demux bus
+			
+			//pc++
+			pc.internalRead();
+			ula.store(1);
+			ula.inc();
+			ula.read(1);
+			pc.internalStore(); //now pc points to the neoints to the next instruction. We go back to the FETCH status.
   }
 
-  public void IncR() {
+  public void incReg() {
     // pc++
     pc.internalRead();
     ula.store(1);
@@ -1056,43 +1063,43 @@ public class Architecture {
     simulationDecodeExecuteBefore(command);
     switch (command) {
       case 0:
-        addRR();
+        addRegReg();
         break;
       case 1:
-        addMR();
+        addMemReg();
         break;
       case 2:
-        addRM();
+        addRegMem();
         break;
       case 3:
-        addIMMR();
+        addImmReg();
         break;
       case 4:
-        subRR();
+        subRegReg();
         break;
       case 5:
-        subMR();
+        subMemReg();
         break;
       case 6:
-        subRM();
+        subRegMem();
         break;
       case 7:
-        subIR();
+        subImmReg();
         break;
       case 8:
-        moveMR();
+        moveMemReg();
         break;
       case 9:
-        moveRM();
+        moveRegMem();
         break;
       case 10:
-        moveRR();
+        moveRegReg();
         break;
       case 11:
-        moveIR();
+        moveImmReg();
         break;
       case 12:
-        IncR();
+        incReg();
         break;
       case 13:
         jmp();

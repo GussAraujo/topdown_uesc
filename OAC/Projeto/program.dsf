@@ -1,0 +1,4 @@
+a
+move 25 %RPG0
+move 12 %RPG1
+add %RPG0 %RPG1

@@ -155,7 +155,9 @@ public class Assembler {
 			parameter2 = "&"+parameter2;
 		}
 		else if (commandNumber == 3) { 
-			// TODO
+			//TO DO
+			parameter = tokens[1];
+			parameter2 = tokens[2];
 		}
 		else if (commandNumber == 4) { 
 			parameter = tokens[1];
@@ -173,6 +175,8 @@ public class Assembler {
 		}
 		else if (commandNumber == 7) { 
 			// TODO
+			parameter = tokens[1];
+			parameter2 = tokens[2];
 		}
 		else if (commandNumber == 8) { 
 			parameter = tokens[1];
@@ -215,6 +219,9 @@ public class Assembler {
 		}
 		else if (commandNumber == 17) { 
 			// TODO
+			parameter = tokens[1];
+			parameter2 = tokens[2];
+			parameter3 = "&" + tokens[3];
 		}
 		else if (commandNumber == 18) {
 			parameter = tokens[1];
@@ -511,7 +518,7 @@ public class Assembler {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String filename = args[0];
+		String filename = "program";
 		Assembler assembler = new Assembler();
 		System.out.println("Reading source assembler file: "+filename+".dsf");
 		assembler.read(filename);
