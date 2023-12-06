@@ -266,10 +266,12 @@ public class Assembler {
 		int p = -1;
 		if ((p1.startsWith("%")) && (p2.startsWith("%"))) {
 			p = commands.indexOf("addRegReg");
-		} else if (p2.startsWith("%")) {
+		} else if (p1.startsWith("&")) {
 			p = commands.indexOf("addMemReg");
 		} else if (p1.startsWith("%")) {
 			p = commands.indexOf("addRegMem");
+		} else {
+			p = commands.indexOf("addImmReg");
 		}
 		return p;
 	}

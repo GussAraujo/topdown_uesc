@@ -2,5 +2,5 @@ a
 move 25 %RPG0
 move 12 %RPG1
 move 99 %RPG3
-add %RPG0 %RPG1
+add 20 %RPG1
 sub %RPG3 %RPG1

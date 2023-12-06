@@ -346,9 +346,9 @@ public class Architecture {
   public void addImmReg() {
     // pc++
     pc.internalRead();
-    ula.internalStore(1);
+    ula.store(1);
     ula.inc();
-    ula.internalRead(1); // mudar para read
+    ula.read(1); // mudar para read
     pc.internalStore();
 
     // primeiro valor
@@ -357,9 +357,15 @@ public class Architecture {
     ir.store();
     ir.internalRead();
     ula.internalStore(0);
+
+    //pc++
+    pc.internalRead();
+    ula.store(1);
     ula.inc();
-    ula.internalRead(1);
+    ula.read(1); // mudar para read
     pc.internalStore();
+
+    //segundo valor
     pc.read();
     memory.read();
     demux.setValue(extBus1.get());
@@ -372,9 +378,9 @@ public class Architecture {
     registersInternalStore();
     // pc++
     pc.internalRead();
-    ula.internalStore(1);
+    ula.store(1);
     ula.inc();
-    ula.internalRead(1);
+    ula.read(1);
     pc.internalStore();
   }
 
@@ -602,6 +608,7 @@ public class Architecture {
     ula.inc();
     ula.read(1);
     pc.internalStore();
+
     pc.read();
     memory.read();
     demux.setValue(extBus1.get()); // points to the correct register
