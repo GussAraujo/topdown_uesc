@@ -31,7 +31,7 @@ public class Architecture {
   private Register RPG1;
   private Register RPG2;
   private Register RPG3;
-  private Register stackStop;
+  private Register stackTop;
   private Register stackBottom;
   private Register flags;
   private Ula ula;
@@ -56,7 +56,7 @@ public class Architecture {
     RPG1 = new Register("RPG1", extBus1, intBus1);
     RPG2 = new Register("RPG2", extBus1, intBus1);
     RPG3 = new Register("RPG3", extBus1, intBus1);
-    stackStop = new Register("stackTop", extBus1, intBus1);
+    stackTop = new Register("stackTop", extBus1, intBus1);
     stackBottom = new Register("stackBottom", extBus1, intBus1);
     flags = new Register(2, statusBus);
     fillRegistersList();
@@ -81,7 +81,7 @@ public class Architecture {
     registersList.add(RPG1);
     registersList.add(RPG2);
     registersList.add(RPG3);
-    registersList.add(stackStop);
+    registersList.add(stackTop);
     registersList.add(stackBottom);
     registersList.add(pc);
     registersList.add(ir);
@@ -149,7 +149,7 @@ public class Architecture {
   }
 
   protected Register getStackTop() {
-    return stackStop;
+    return stackTop;
   }
 
   protected Register getStackBottom() {
@@ -179,28 +179,28 @@ public class Architecture {
    */
   protected void fillCommandsList() {
     commandsList = new ArrayList<String>();
-    commandsList.add("addRegReg");    // 0
-    commandsList.add("addMemReg");    // 1
-    commandsList.add("addRegMem");    // 2
-    commandsList.add("addImmReg");    // 3
-    commandsList.add("subRegReg");    // 4
-    commandsList.add("subMemReg");    // 5
-    commandsList.add("subRegMem");    // 6
-    commandsList.add("subImmReg");    // 7
-    commandsList.add("moveMemReg");   // 8
-    commandsList.add("moveRegMem");   // 9
-    commandsList.add("moveRegReg");   // 10
-    commandsList.add("moveImmReg");   // 11
-    commandsList.add("incReg");       // 12
-    commandsList.add("jmp");          // 13
-    commandsList.add("jn");           // 14
-    commandsList.add("jz");           // 15
-    commandsList.add("jeq");          // 16 
-    commandsList.add("jneq");         // 17
-    commandsList.add("jgt");          // 18
-    commandsList.add("jlw");          // 19
-    commandsList.add("call");         // 20
-    commandsList.add("ret");          // 21
+    commandsList.add("addRegReg"); // 0
+    commandsList.add("addMemReg"); // 1
+    commandsList.add("addRegMem"); // 2
+    commandsList.add("addImmReg"); // 3
+    commandsList.add("subRegReg"); // 4
+    commandsList.add("subMemReg"); // 5
+    commandsList.add("subRegMem"); // 6
+    commandsList.add("subImmReg"); // 7
+    commandsList.add("moveMemReg"); // 8
+    commandsList.add("moveRegMem"); // 9
+    commandsList.add("moveRegReg"); // 10
+    commandsList.add("moveImmReg"); // 11
+    commandsList.add("incReg"); // 12
+    commandsList.add("jmp"); // 13
+    commandsList.add("jn"); // 14
+    commandsList.add("jz"); // 15
+    commandsList.add("jeq"); // 16
+    commandsList.add("jneq"); // 17
+    commandsList.add("jgt"); // 18
+    commandsList.add("jlw"); // 19
+    commandsList.add("call"); // 20
+    commandsList.add("ret"); // 21
   }
 
   /**
@@ -344,7 +344,7 @@ public class Architecture {
   }
 
   public void addImmReg() {
-    //pc++
+    // pc++
     pc.internalRead();
     ula.internalStore(1);
     ula.inc();
@@ -370,7 +370,7 @@ public class Architecture {
     setStatusFlags(intBus2.get());
     ula.read(1);
     registersInternalStore();
-    //pc++
+    // pc++
     pc.internalRead();
     ula.internalStore(1);
     ula.inc();
@@ -627,36 +627,37 @@ public class Architecture {
   }
 
   public void moveImmReg() {
-	//pc++
-			pc.internalRead();
-			ula.store(1);
-			ula.inc();
-			ula.read(1);
-			pc.internalStore();
-			
-			pc.read();
-			memory.read();
-			ir.store();
-			
-			//pc++
-			pc.internalRead();
-			ula.store(1);
-			ula.inc();
-			ula.read(1);
-			pc.internalStore(); //now pc points to the second parameter (the second reg id)
-			
-			pc.read();
-			memory.read();
-			demux.setValue(extBus1.get()); //points to the correct register
-			ir.read();
-			registersStore(); //starts the read from the register identified into demux bus
-			
-			//pc++
-			pc.internalRead();
-			ula.store(1);
-			ula.inc();
-			ula.read(1);
-			pc.internalStore(); //now pc points to the neoints to the next instruction. We go back to the FETCH status.
+    // pc++
+    pc.internalRead();
+    ula.store(1);
+    ula.inc();
+    ula.read(1);
+    pc.internalStore();
+
+    pc.read();
+    memory.read();
+    ir.store();
+
+    // pc++
+    pc.internalRead();
+    ula.store(1);
+    ula.inc();
+    ula.read(1);
+    pc.internalStore(); // now pc points to the second parameter (the second reg id)
+
+    pc.read();
+    memory.read();
+    demux.setValue(extBus1.get()); // points to the correct register
+    ir.read();
+    registersStore(); // starts the read from the register identified into demux bus
+
+    // pc++
+    pc.internalRead();
+    ula.store(1);
+    ula.inc();
+    ula.read(1);
+    pc.internalStore(); // now pc points to the neoints to the next instruction. We go back to the FETCH
+                        // status.
   }
 
   public void incReg() {
@@ -703,15 +704,15 @@ public class Architecture {
     memory.read();
     ir.store();
     ir.internalRead();
-    statusMemory.storeIn1(); 
+    statusMemory.storeIn1();
     ula.inc();
     ula.internalRead(1);
     statusMemory.storeIn0();
-    intBus2.put(flags.getBit(1)); 
-    statusMemory.read(); 
+    intBus2.put(flags.getBit(1));
+    statusMemory.read();
     ir.internalStore();
     ir.read();
-    pc.store(); 
+    pc.store();
   }
 
   public void jz() {
@@ -724,15 +725,15 @@ public class Architecture {
     memory.read();
     ir.store();
     ir.internalRead();
-    statusMemory.storeIn1(); 
+    statusMemory.storeIn1();
     ula.inc();
     ula.internalRead(1);
     statusMemory.storeIn0();
-    intBus2.put(flags.getBit(0)); 
-    statusMemory.read(); 
+    intBus2.put(flags.getBit(0));
+    statusMemory.read();
     ir.internalStore();
     ir.read();
-    pc.store(); 
+    pc.store();
   }
 
   public void jeq() {
@@ -790,16 +791,16 @@ public class Architecture {
     ula.internalStore(1);
     ula.inc();
     ula.internalRead(1);
-    pc.internalStore(); 
-    memory.read(); 
+    pc.internalStore();
+    memory.read();
     demux.setValue(extBus1.get());
-    registersInternalRead(); 
+    registersInternalRead();
     ula.store(0);
     ula.inc();
     ula.internalRead(1);
     pc.internalStore();
     pc.read();
-    memory.read(); 
+    memory.read();
     demux.setValue(extBus1.get());
     ula.inc();
     ula.internalRead(1);
@@ -811,7 +812,7 @@ public class Architecture {
     setStatusFlags(intBus2.get());
     if (flags.getBit(0) != 1) {
       pc.read();
-      memory.read(); 
+      memory.read();
       pc.store();
     } else {
       pc.internalRead();
@@ -948,7 +949,7 @@ public class Architecture {
     ir.store();
     ir.internalRead();
     ula.internalStore(0);
-    stackStop.read();
+    stackTop.read();
     memory.store();
     ula.inc();
     ula.internalRead(1);
@@ -957,22 +958,22 @@ public class Architecture {
     memory.store();
     ula.read(0);
     pc.internalStore();
-    stackStop.internalRead();
+    stackTop.internalRead();
     ula.store(0);
     intBus1.put(1);
     ula.store(1);
     ula.sub();
     ula.read(1);
-    stackStop.internalStore();
+    stackTop.internalStore();
   }
 
   public void ret() {
-    stackStop.internalRead();
+    stackTop.internalRead();
     ula.store(1);
     ula.inc();
     ula.read(1);
-    stackStop.internalStore();
-    stackStop.read();
+    stackTop.internalStore();
+    stackTop.read();
     memory.read();
     pc.store();
   }
