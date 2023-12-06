@@ -507,18 +507,22 @@ public class Architecture {
   }
 
   public void subImmReg() {
+    //pc++
     pc.internalRead();
-    ula.internalStore(1);
+    ula.store(1);
     ula.inc();
-    ula.internalRead(1);
+    ula.read(1);
     pc.internalStore();
+
+    // primeiro valor
     pc.read();
     memory.read();
     ir.store();
     ir.internalRead();
     ula.internalStore(0);
+
     ula.inc();
-    ula.internalRead(1);
+    ula.read(1);
     pc.internalStore();
     pc.read();
     memory.read();
@@ -530,10 +534,12 @@ public class Architecture {
     setStatusFlags(intBus2.get());
     ula.read(1);
     registersInternalStore();
+    
+    //pcc+
     pc.internalRead();
-    ula.internalStore(1);
+    ula.store(1);
     ula.inc();
-    ula.internalRead(1);
+    ula.read(1);
     pc.internalStore();
   }
 
