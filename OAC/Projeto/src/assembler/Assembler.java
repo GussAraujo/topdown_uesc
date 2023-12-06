@@ -141,82 +141,85 @@ public class Assembler {
 
 		int commandNumber = findCommandNumber(tokens);
 
-		if (commandNumber == 0) {
+		if (commandNumber == 0) { // processa o addRegReg
 			parameter = tokens[1];
 			parameter2 = tokens[2];
-		} else if (commandNumber == 1) {
+		} else if (commandNumber == 1) { // processa o addMemReg
 			parameter = tokens[1];
 			parameter = "&" + parameter;
 			parameter2 = tokens[2];
-		} else if (commandNumber == 2) {
+		} else if (commandNumber == 2) { // processa o addRegMem
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter2 = "&" + parameter2;
-		} else if (commandNumber == 3) {
+		} else if (commandNumber == 3) { // // processa o addImmReg
 			// TO DO
 			parameter = tokens[1];
 			parameter2 = tokens[2];
-		} else if (commandNumber == 4) {
+		} else if (commandNumber == 4) { // processa o subRegReg
 			parameter = tokens[1];
 			parameter2 = tokens[2];
-		} else if (commandNumber == 5) {
+		} else if (commandNumber == 5) { // processa o subMemReg
 			parameter = tokens[1];
 			parameter = "&" + parameter;
 			parameter2 = tokens[2];
-		} else if (commandNumber == 6) {
+		} else if (commandNumber == 6) { // processa o subRegMem
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter2 = "&" + parameter2;
-		} else if (commandNumber == 7) {
+		} else if (commandNumber == 7) { // processa o subImmReg
 			// TODO
 			parameter = tokens[1];
 			parameter2 = tokens[2];
-		} else if (commandNumber == 8) {
+		} else if (commandNumber == 8) { // processa o moveMemReg
 			parameter = tokens[1];
 			parameter = "&" + parameter;
 			parameter2 = tokens[2];
-		} else if (commandNumber == 9) {
+		} else if (commandNumber == 9) { // processa o subRegMem
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter2 = "&" + parameter2;
-		} else if (commandNumber == 10) {
+		} else if (commandNumber == 10) { // processa o moveRegReg
 			parameter = tokens[1];
 			parameter2 = tokens[2];
-		} else if (commandNumber == 11) {
+		} else if (commandNumber == 11) { // processa o moveImmReg
 			parameter = tokens[1];
 			parameter2 = tokens[2];
-		} else if (commandNumber == 12) {
+		} else if (commandNumber == 12) { // processa o incReg
 			parameter = tokens[1];
-		} else if (commandNumber == 13) {
-			parameter = tokens[1];
-			parameter = "&" + parameter;
-		} else if (commandNumber == 14) {
+		} else if (commandNumber == 13) { // processa o jmp
 			parameter = tokens[1];
 			parameter = "&" + parameter;
-		} else if (commandNumber == 15) {
+		} else if (commandNumber == 14) { // processa o jn
 			parameter = tokens[1];
 			parameter = "&" + parameter;
-		} else if (commandNumber == 16) {
+		} else if (commandNumber == 15) { // processa o jz
+			parameter = tokens[1];
+			parameter = "&" + parameter;
+		} else if (commandNumber == 16) { // processa o jeq
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter3 = tokens[3];
 			parameter3 = "&" + parameter3;
-		} else if (commandNumber == 17) {
+		} else if (commandNumber == 17) { // processa o jneq
 			// TODO
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter3 = "&" + tokens[3];
-		} else if (commandNumber == 18) {
+		} else if (commandNumber == 18) { // processa o jgt
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter3 = tokens[3];
 			parameter3 = "&" + parameter3;
-		} else if (commandNumber == 19) {
+		} else if (commandNumber == 19) { // processa o jlw
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter3 = tokens[3];
 			parameter3 = "&" + parameter3;
-		} else if (commandNumber == 20) {
+		} else if (commandNumber == 20) { // processa o call
+			parameter = tokens[1];
+			parameter = "&" + parameter;
+		} else if (commandNumber == 21) { // processa o ret
 			parameter = tokens[1];
 			parameter = "&" + parameter;
 		}
