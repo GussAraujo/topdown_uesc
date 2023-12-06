@@ -5,3 +5,4 @@ move 99 %RPG3
 add 20 %RPG1
 sub %RPG3 %RPG1
 sub 90 %RPG3
+sub 22 %RPG1
