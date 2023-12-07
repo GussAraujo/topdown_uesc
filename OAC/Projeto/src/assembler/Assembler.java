@@ -153,7 +153,6 @@ public class Assembler {
 			parameter2 = tokens[2];
 			parameter2 = "&" + parameter2;
 		} else if (commandNumber == 3) { // // processa o addImmReg
-			// TO DO
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 		} else if (commandNumber == 4) { // processa o subRegReg
@@ -168,7 +167,6 @@ public class Assembler {
 			parameter2 = tokens[2];
 			parameter2 = "&" + parameter2;
 		} else if (commandNumber == 7) { // processa o subImmReg
-			// TODO
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 		} else if (commandNumber == 8) { // processa o moveMemReg
@@ -202,7 +200,6 @@ public class Assembler {
 			parameter3 = tokens[3];
 			parameter3 = "&" + parameter3;
 		} else if (commandNumber == 17) { // processa o jneq
-			// TODO
 			parameter = tokens[1];
 			parameter2 = tokens[2];
 			parameter3 = "&" + tokens[3];
@@ -217,9 +214,6 @@ public class Assembler {
 			parameter3 = tokens[3];
 			parameter3 = "&" + parameter3;
 		} else if (commandNumber == 20) { // processa o call
-			parameter = tokens[1];
-			parameter = "&" + parameter;
-		} else if (commandNumber == 21) { // processa o ret
 			parameter = tokens[1];
 			parameter = "&" + parameter;
 		}
@@ -525,7 +519,4 @@ public class Assembler {
 		System.out.println("Generating executable: " + filename + ".dxf");
 		assembler.makeExecutable(filename);
 	}
-
 }
-
-
