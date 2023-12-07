@@ -801,39 +801,48 @@ public class Architecture {
 
   public void jneq() {
     pc.internalRead();
-    ula.internalStore(1);
-    ula.inc();
-    ula.internalRead(1);
-    pc.internalStore();
-    memory.read();
-    demux.setValue(extBus1.get());
-    registersInternalRead();
-    ula.store(0);
-    ula.inc();
-    ula.internalRead(1);
-    pc.internalStore();
-    pc.read();
-    memory.read();
-    demux.setValue(extBus1.get());
-    ula.inc();
-    ula.internalRead(1);
-    pc.internalStore();
-    registersInternalRead();
     ula.store(1);
-    ula.sub();
+    ula.inc();
+    ula.read(1);
+    pc.internalStore();
+		pc.read();
+		memory.read();
+		demux.setValue(extBus1.get());
+		registersInternalRead();
+		ula.store(0);
+		pc.internalRead();
+    ula.store(1);
+    ula.inc();
+    ula.read(1);
+    pc.internalStore();
+		pc.read();
+		memory.read();
+		demux.setValue(extBus1.get());
+		registersInternalRead();
+		ula.store(1);
+		ula.sub();
+		ula.read(1);
+		setStatusFlags(intBus1.get());
+		pc.internalRead();
+    ula.store(1);
+    ula.inc();
+    ula.read(1);
+    pc.internalStore();
+		pc.read();
+		memory.read();
+    ir.store();
+		ir.internalRead();
+		statusMemory.storeIn0();
+		pc.internalRead();
+    ula.store(1);
+    ula.inc();
     ula.internalRead(1);
-    setStatusFlags(intBus2.get());
-    if (flags.getBit(0) != 1) {
-      pc.read();
-      memory.read();
-      pc.store();
-    } else {
-      pc.internalRead();
-      ula.internalStore(1);
-      ula.inc();
-      ula.internalRead(1);
-      pc.internalStore();
-    }
+    statusMemory.storeIn1();
+		intBus2.put(flags.getBit(0)); 
+		statusMemory.read(); 
+    ir.internalStore();
+		ir.read();
+		pc.store(); 
   }
 
   public void jgt() {
