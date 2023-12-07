@@ -792,7 +792,7 @@ public class Architecture {
     ula.inc();
     ula.internalRead(1);
     statusMemory.storeIn0();
-    intBus2.put(flags.getBit(0));
+    intBus2.put(flags.getBit(0)); // se for igual flag = 1
     statusMemory.read();
     ir.internalStore();
     ir.read();
@@ -801,40 +801,48 @@ public class Architecture {
 
   public void jneq() {
     pc.internalRead();
-    ula.internalStore(1);
+    ula.store(1);
     ula.inc();
-    ula.internalRead(1);
+    ula.read(1);
     pc.internalStore();
+
     pc.read();
     memory.read();
     demux.setValue(extBus1.get());
+
     registersInternalRead();
     ula.store(0);
+
     pc.internalRead();
-    ula.internalStore(1);
+    ula.store(1);
     ula.inc();
-    ula.internalRead(1);
+    ula.read(1);
     pc.internalStore();
+
     pc.read();
     memory.read();
     demux.setValue(extBus1.get());
+
     registersInternalRead();
     ula.store(1);
+
     ula.sub();
     ula.internalRead(1);
     setStatusFlags(intBus2.get());
+
     pc.internalRead();
-    ula.internalStore(1);
+    ula.store(1);
     ula.inc();
-    ula.internalRead(1);
+    ula.read(1);
     pc.internalStore();
+
     pc.read();
     memory.read();
     statusMemory.storeIn0();
     pc.internalRead();
-    ula.internalStore(1);
+    ula.store(1);
     ula.inc();
-    ula.internalRead(1);
+    ula.read(1);
     pc.internalStore();
     pc.read();
     statusMemory.storeIn1();
@@ -1018,7 +1026,6 @@ public class Architecture {
    */
   protected void registersInternalRead() {
     registersList.get(demux.getValue()).internalRead();
-    ;
   }
 
   /**
@@ -1189,17 +1196,22 @@ public class Architecture {
    * NOT TESTED
    */
   private void simulationDecodeExecuteAfter() {
-    String instruction;
-    System.out.println("-----------AFTER Decode and Execute phases--------------");
-    System.out.println("Internal Bus 1: " + intBus1.get());
-    System.out.println("Internal Bus 2: " + intBus2.get());
-    System.out.println("External Bus 1: " + extBus1.get());
-    for (Register r : registersList) {
-      System.out.println(r.getRegisterName() + ": " + r.getData());
+    try {
+      System.out.println("-----------AFTER Decode and Execute phases--------------");
+      System.out.println("Internal Bus 1: " + intBus1.get());
+      System.out.println("Internal Bus 2: " + intBus2.get());
+      System.out.println("External Bus 1: " + extBus1.get());
+      for (Register r : registersList) {
+        System.out.println(r.getRegisterName() + ": " + r.getData());
+      }
+
+      // Thread.sleep(2000); 
+    } catch (Exception e) {
+      System.out.println(e);
     }
-    Scanner entrada = new Scanner(System.in);
-    System.out.println("Press <Enter>");
-    String mensagem = entrada.nextLine();
+    // Scanner entrada = new Scanner(System.in);
+    // System.out.println("Press <Enter>");
+    // String mensagem = entrada.nextLine();
   }
 
   /**
