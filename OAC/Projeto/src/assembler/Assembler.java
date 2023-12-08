@@ -214,8 +214,7 @@ public class Assembler {
 			parameter3 = tokens[3];
 			parameter3 = "&" + parameter3;
 		} else if (commandNumber == 20) { // processa o call
-			parameter = tokens[1];
-			parameter = "&" + parameter;
+			parameter = "&" + tokens[1];
 		}
 		objProgram.add(Integer.toString(commandNumber));
 		if (!parameter.isEmpty()) {

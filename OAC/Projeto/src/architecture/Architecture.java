@@ -1182,13 +1182,12 @@ public class Architecture {
     else
       instruction = "END";
     if (hasOperands(instruction)) {
-      parameter = memory.getDataList()[pc.getData() + 1];
+      parameter = memory.getDataList()[pc.getData()+1];
       System.out.println("Instruction: " + instruction + " " + parameter);
     } else
       System.out.println("Instruction: " + instruction);
     if ("read".equals(instruction))
       System.out.println("memory[" + parameter + "]=" + memory.getDataList()[parameter]);
-
   }
 
   /**
@@ -1209,9 +1208,9 @@ public class Architecture {
     } catch (Exception e) {
       System.out.println(e);
     }
-    // Scanner entrada = new Scanner(System.in);
-    // System.out.println("Press <Enter>");
-    // String mensagem = entrada.nextLine();
+    Scanner entrada = new Scanner(System.in);
+    System.out.println("Press <Enter>");
+    String mensagem = entrada.nextLine();
   }
 
   /**

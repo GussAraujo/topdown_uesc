@@ -1,4 +1,5 @@
 a
+laco:
 move 25 %RPG0
 move 12 %RPG1
 move 25 %RPG2
@@ -7,4 +8,5 @@ add 20 %RPG1
 sub %RPG3 %RPG1
 sub 90 %RPG3
 sub 22 %RPG1
-jneq %RPG0 %RPG1 a
+inc %RPG3
+jlw %RPG1 %RPG0 laco
