@@ -222,37 +222,31 @@ public class Architecture {
   }
 
   public void addRegReg() {
-    // pc++
-    pc.internalRead();
+    pc.internalRead(); // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // primeiro parâmetro
     pc.read();
-    memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    memory.read(); //get first value
+    demux.setValue(extBus1.get()); 
     registersInternalRead();
     ula.store(0);
-    // pc++
-    pc.internalRead();
+    pc.internalRead(); // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // segundo parâmetro
     pc.read();
-    memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    memory.read(); //get second value
+    demux.setValue(extBus1.get()); // seta no demux a referência do registrador que queremos obter o dado
     registersInternalRead();
     ula.store(1);
-    // operação
-    ula.add(); // the result is in the second ula's internal register
-    ula.read(1); // the operation result is in the internalBus1
-    setStatusFlags(intBus1.get()); // changing flags due the end of the operation
+    ula.add(); // add values
+    ula.read(1); // result is in the internalBus1
+    setStatusFlags(intBus1.get()); // defines flags after add operation
     registersInternalStore();
-    // pc++
-    pc.internalRead();
+    pc.internalRead();  // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
@@ -260,38 +254,32 @@ public class Architecture {
   }
 
   public void addMemReg() {
-    // pc++
-    pc.internalRead();
+    pc.internalRead(); // início de pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // primeiro parâmetro
-    pc.read();
+    pc.read(); 
     memory.read();
-    memory.read();
-    ir.store();
-    ir.internalRead();
-    ula.internalStore(0);
-    // pc++
-    pc.internalRead();
-    ula.store(1);
+    memory.read(); //pegar o primeiro valor da memória
+    ir.store(); //Ir armazena valor de extBus1
+    ir.internalRead(); // joga valor de IR em intBus2 para ULA pegar
+    ula.internalStore(0); // ula pega valor de intBus2 e seu registrador interno 0 armazena
+    pc.internalRead(); // pc++
+    ula.store(1); 
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // segundo parâmetro
     pc.read();
-    memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    memory.read(); // pegar o segundo valor da memória e joga em extBus1
+    demux.setValue(extBus1.get()); // seta no demux o valor de extBus1
     registersInternalRead();
     ula.store(1);
-    // operação
-    ula.add(); // the result is in the second ula's internal register
-    ula.read(1); // the operation result is in the internalBus2
-    setStatusFlags(intBus1.get()); // changing flags due the end of the operation
+    ula.add(); // soma os valores e coloca no segundo registrador da ULA
+    ula.read(1); // como o resultado está no segundo registrador, iremos dar um read(1) para que ele jogue seu valor no barramento
+    setStatusFlags(intBus1.get()); // atualiza flags
     registersInternalStore();
-    // pc++
-    pc.internalRead();
+    pc.internalRead();  // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
@@ -299,44 +287,37 @@ public class Architecture {
   }
 
   public void addRegMem() {
-    // pc++
-    pc.internalRead();
+    pc.internalRead(); // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // primeiro parâmetro
     pc.read();
-    memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
-    registersInternalRead();
-    ula.store(0);
-    // pc++
-    pc.internalRead();
+    memory.read(); //pegar o primeiro valor da memória
+    demux.setValue(extBus1.get()); // seta valor de extBus 1 em demux
+    registersInternalRead(); // obtém valor do registrador correspondente
+    ula.store(0); // armazena no primeiro registrador o valor do barramento
+    pc.internalRead(); // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // segundo parâmetro
     pc.read();
     memory.read();
-    memory.read();
-    ir.store();
-    ir.internalRead();
-    ula.internalStore(1);
-    // operação
-    ula.add(); // the result is in the second ula's internal register
-    ula.internalRead(1);
-    ir.internalStore();
-    setStatusFlags(intBus2.get()); // changing flags due the end of the operation
-    // armazena na memória
-    pc.read();
-    memory.read();
-    memory.store();
-    ir.read();
-    memory.store();
-    // pc++
-    pc.internalRead();
+    memory.read(); //pegar o segundo valor da memória
+    ir.store(); //armazena valor de extBus1
+    ir.internalRead(); // jogar valor em intBus2
+    ula.internalStore(1);  // pega valor de intBus2 e joga em intBus1
+    ula.add(); // realiza a operação de soma e armazena no segundo registrador
+    ula.internalRead(1); // o valor está no segundo registrador da ula, ela joga para intBus2 e intBus1
+    ir.internalStore(); // ir pega o valor de intbus2
+    setStatusFlags(intBus2.get()); // atualiza a flag
+    pc.read(); // joga valor em extBus1
+    memory.read(); // memôria lê e coloca no barramento extBus1
+    memory.store(); // lê do barramento a posição onde o valor será armazenado
+    ir.read(); // recuperamos o valor de IR e jogamos em extBus1
+    memory.store(); // agora armazenamos efetivamente o valor no endereço de memória desejado
+    pc.internalRead(); // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
@@ -344,29 +325,22 @@ public class Architecture {
   }
 
   public void addImmReg() {
-    // pc++
-    pc.internalRead();
+    pc.internalRead();  // pc++
     ula.store(1);
     ula.inc();
-    ula.read(1); // mudar para read
+    ula.read(1);
     pc.internalStore();
-
-    // primeiro valor
-    pc.read();
+    pc.read();  // primeiro valor
     memory.read();
     ir.store();
     ir.internalRead();
     ula.internalStore(0);
-
-    //pc++
-    pc.internalRead();
+    pc.internalRead(); //pc++
     ula.store(1);
     ula.inc();
-    ula.read(1); // mudar para read
+    ula.read(1); 
     pc.internalStore();
-
-    //segundo valor
-    pc.read();
+    pc.read(); //segundo valor
     memory.read();
     demux.setValue(extBus1.get());
     registersInternalRead();
@@ -376,8 +350,7 @@ public class Architecture {
     setStatusFlags(intBus2.get());
     ula.read(1);
     registersInternalStore();
-    // pc++
-    pc.internalRead();
+    pc.internalRead(); // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
@@ -385,37 +358,31 @@ public class Architecture {
   }
 
   public void subRegReg() {
-    // pc++
-    pc.internalRead();
+    pc.internalRead(); // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // primeiro parâmetro
-    pc.read();
+    pc.read(); // obtém o primeiro valor
     memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    demux.setValue(extBus1.get()); //seta valor de extBus 1 em demux
     registersInternalRead();
     ula.store(0);
-    // pc++
-    pc.internalRead();
+    pc.internalRead(); // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // segundo parâmetro
-    pc.read();
+    pc.read(); // obtém o segundo valor a ser utilizado
     memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    demux.setValue(extBus1.get());
     registersInternalRead();
     ula.store(1);
-    // operação
-    ula.sub(); // the result is in the second ula's internal register
-    ula.read(1); // the operation result is in the internalBus2
-    setStatusFlags(intBus1.get()); // changing flags due the end of the operation
+    ula.sub(); // operação de subtração
+    ula.read(1); 
+    setStatusFlags(intBus1.get()); // atualiza a flag
     registersInternalStore();
-    // pc++
-    pc.internalRead();
+    pc.internalRead(); // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
@@ -423,13 +390,12 @@ public class Architecture {
   }
 
   public void subMemReg() {
-    // pc++
-    pc.internalRead();
+    pc.internalRead(); // pc++
     ula.store(1);
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // primeiro parâmetro
+    // obtém o primeiro valor
     pc.read();
     memory.read();
     memory.read();
@@ -442,16 +408,16 @@ public class Architecture {
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // segundo parâmetro
+    // obtém o segundo valor a ser utilizado
     pc.read();
     memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    demux.setValue(extBus1.get()); // seta no demux a referência do registrador que queremos obter o dado
     registersInternalRead();
     ula.store(1);
     // operação
-    ula.sub(); // the result is in the second ula's internal register
-    ula.read(1); // the operation result is in the internalBus2
-    setStatusFlags(intBus1.get()); // changing flags due the end of the operation
+    ula.sub(); // realiza-se a subtração e o resultado fica no segundo registrador
+    ula.read(1); // como o resultado está no segundo registrador, iremos dar um read(1) para que ele jogue seu valor no barramento, intBus1
+    setStatusFlags(intBus1.get()); // atualiza a flag
     registersInternalStore();
     // pc++
     pc.internalRead();
@@ -468,10 +434,10 @@ public class Architecture {
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // primeiro parâmetro
+    // obtém o primeiro valor
     pc.read();
     memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    demux.setValue(extBus1.get()); // seta no demux a referência do registrador que queremos obter o dado
     registersInternalRead();
     ula.store(0);
     // pc++
@@ -480,7 +446,7 @@ public class Architecture {
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // segundo parâmetro
+    // obtém o segundo valor a ser utilizado
     pc.read();
     memory.read();
     memory.read();
@@ -488,10 +454,10 @@ public class Architecture {
     ir.internalRead();
     ula.internalStore(1);
     // operação
-    ula.sub(); // the result is in the second ula's internal register
+    ula.sub(); // realiza-se a subtração e o resultado fica no segundo registrador
     ula.internalRead(1);
     ir.internalStore();
-    setStatusFlags(intBus2.get()); // changing flags due the end of the operation
+    setStatusFlags(intBus2.get()); // atualiza a flag
     // armazena na memória
     pc.read();
     memory.read();
@@ -550,7 +516,7 @@ public class Architecture {
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    // primeiro parâmetro
+    // obtém o primeiro valor
     pc.read();
     memory.read();
     memory.read();
@@ -561,10 +527,10 @@ public class Architecture {
     ula.inc();
     ula.read(1);
     pc.internalStore(); // now pc points to the second parameter (the second reg id)
-    // segundo parâmetro
+    // obtém o segundo valor a ser utilizado
     pc.read();
     memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    demux.setValue(extBus1.get()); // seta no demux a referência do registrador que queremos obter o dado
     ir.read();
     registersStore(); // starts the read from the register identified into demux bus
     // pc++
@@ -584,7 +550,7 @@ public class Architecture {
     pc.internalStore();
     pc.read();
     memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    demux.setValue(extBus1.get()); // seta no demux a referência do registrador que queremos obter o dado
     registersRead();
     ir.store();
     // pc++
@@ -593,7 +559,7 @@ public class Architecture {
     ula.inc();
     ula.read(1);
     pc.internalStore(); // now pc points to the second parameter (the second reg id)
-    // primeiro parâmetro
+    // obtém o primeiro valor
     pc.read();
     memory.read();
     memory.store();
@@ -617,7 +583,7 @@ public class Architecture {
 
     pc.read();
     memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    demux.setValue(extBus1.get()); // seta no demux a referência do registrador que queremos obter o dado
     registersRead();
     ir.store();
     // pc++
@@ -628,7 +594,7 @@ public class Architecture {
     pc.internalStore(); // now pc points to the second parameter (the second reg id)
     pc.read();
     memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    demux.setValue(extBus1.get()); // seta no demux a referência do registrador que queremos obter o dado
     ir.read();
     registersStore(); // starts the read from the register identified into demux bus
     // pc++
@@ -660,7 +626,7 @@ public class Architecture {
 
     pc.read();
     memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    demux.setValue(extBus1.get()); // seta no demux a referência do registrador que queremos obter o dado
     ir.read();
     registersStore(); // starts the read from the register identified into demux bus
 
@@ -682,7 +648,7 @@ public class Architecture {
     pc.internalStore();
     pc.read();
     memory.read();
-    demux.setValue(extBus1.get()); // points to the correct register
+    demux.setValue(extBus1.get()); // seta no demux a referência do registrador que queremos obter o dado
     registersInternalRead();
     ula.store(1);
     ula.inc();
