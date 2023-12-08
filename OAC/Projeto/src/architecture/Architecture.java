@@ -894,38 +894,38 @@ public class Architecture {
     ula.inc();
     ula.read(1);
     pc.internalStore();
-    pc.read();
-    memory.read();
-    ir.store();
-    ir.internalRead();
-    ula.internalStore(0);
-    stackTop.read();
-    memory.store();
-    ula.inc();
-    ula.internalRead(1);
-    ir.internalStore();
-    ir.read();
-    memory.store();
-    ula.read(0);
-    pc.internalStore();
-    stackTop.internalRead();
-    ula.store(0);
-    intBus1.put(1);
+    pc.read(); // joga valor para extBus1
+    memory.read(); // memoria lê dado de extBus1
+    ir.store(); // ir armazenada dado de  extBus1
+    ir.internalRead(); // ir joga dado em intBus2
+    ula.internalStore(0); // ula pega dado de intBus2 e joga em intBus1
+    stackTop.read(); // joga seu dado em extBus1
+    memory.store(); // inicio do store 
+    ula.inc(); // ula incrementa
+    ula.internalRead(1); // ula joga valor em intBus1 e tambem em intBus2
+    ir.internalStore(); // ir armazena dado de intBus2
+    ir.read(); // ir joga o valor em em extBus1
+    memory.store(); // memoria lê dado de endereço de extBus1
+    ula.read(0); // ula joga o dado em intBus1
+    pc.internalStore(); // pc armazena dado de intBus1
+    stackTop.internalRead(); // stackTop joga dado em intBus1
+    ula.store(0); //ula armazena no primeiro registrador
+    intBus1.put(1); //
     ula.store(1);
-    ula.sub();
-    ula.read(1);
-    stackTop.internalStore();
+    ula.sub(); //subtrair o endereço em uma unidade pos memória vai de 0 - 127
+    ula.read(1); // ula joga para intBus1
+    stackTop.internalStore();// stackTop consome de intBus1
   }
 
   public void ret() {
-    stackTop.internalRead();
-    ula.store(1);
-    ula.inc();
-    ula.read(1);
-    stackTop.internalStore();
-    stackTop.read();
-    memory.read();
-    pc.store();
+    stackTop.internalRead(); // joga o dado em intBus1
+    ula.store(1); // pega o dado de intBus1
+    ula.inc(); // incrementa e armazena nos segundo registrador de ula
+    ula.read(1); // joga para intbus1 o resultado
+    stackTop.internalStore(); // pega o dado de intBus1
+    stackTop.read(); // joga o dado em extBus1
+    memory.read(); //memôria lê o dado de extbus1
+    pc.store(); // pc aponta para a próxima instrução
   }
 
   public ArrayList<Register> getRegistersList() {

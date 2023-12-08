@@ -11,7 +11,7 @@ laco2:
 sub 90 %RPG3
 sub 22 %RPG1
 inc %RPG3
-jneq %RPG1 %RPG0 laco2
+call laco2
 jeq %RPG1 %RPG0 laco2
 jgt %RPG1 %RPG0 laco2
 jlw %RPG1 %RPG0 laco
