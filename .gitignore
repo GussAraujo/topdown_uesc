@@ -6,3 +6,4 @@ output/
 .ccls-cache/
 *.out
 bin/
+node_modules/
