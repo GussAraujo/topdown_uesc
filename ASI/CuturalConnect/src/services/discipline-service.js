@@ -4,7 +4,7 @@ class disciplineService {
   static async addStudent({ idEstudante, disciplina }) {
     try {
       const disciplineFind = await discipline.find({ nome: disciplina }).lean()
-      if (disciplineFind) {
+      if (disciplineFind.length) {
         const { _id, estudantes } = disciplineFind[0]
         estudantes.push(idEstudante)
         return discipline.updateOne({ _id }, { estudantes })
