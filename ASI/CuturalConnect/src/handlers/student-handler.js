@@ -52,11 +52,15 @@ class studentHandlers {
    * @required
    * @in req.body
    * @param {string} senha
+   * 
+   * @required
+   * @in req.body
+   * @param {string} disciplina
    */
-  static register(req, res){
+  static async register(req, res){
     try {
-      const { email, nome, senha } = studentValidation.register(req.body)
-      studentService.register({ email, nome, senha})
+      const { email, nome, senha, disciplina } = studentValidation.register(req.body)
+      await studentService.register({ email, nome, senha, disciplina })
       res.send({ message: 'Estudante criado com sucesso!' })
     } catch (error) {
       throw new Error(error.message)
