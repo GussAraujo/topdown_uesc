@@ -6,11 +6,15 @@ const { mongodb } = require('./src/db');
 
 mongodb.connect()
 
-app.use(express.json());
-app.use(cors());
+try {
+  app.use(express.json());
+  app.use(cors());
 
-app.use('/', routes);
+  app.use('/', routes);
 
-app.listen(3001, () => {
-  console.log('Server on port 3001...')
-})
+  app.listen(3001, () => {
+    console.log('Server on port 3001...')
+  })
+} catch (error) {
+  throw new Error(error.message)
+}
