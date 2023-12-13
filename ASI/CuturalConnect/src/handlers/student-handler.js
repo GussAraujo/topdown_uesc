@@ -24,7 +24,7 @@ class studentHandlers {
       const { email, senha } = studentValidation.login(req.body)
       const response = await studentService.login({ email, senha })
       if (response.length > 0)
-        res.status(200).send({ message: 'Login feito com sucesso!', data: response[0].nome })
+        res.status(200).send({ message: 'Login feito com sucesso!', nome: response[0].nome })
       else
         res.status(404).send({ message: 'Estudante não encontrado!'})
     } catch (error) {
