@@ -3,13 +3,12 @@ import socket
 from datetime import datetime
 
 clients = []
-usernames = {}  
+usernames = {}
 
 def handle_client(client, addr):
-    # Autenticação simples
     try:
         senha_recebida = client.recv(2048).decode('utf-8')
-        if senha_recebida != "senha_secreta":
+        if senha_recebida != "a":
             client.send("Senha incorreta. Conexão recusada.".encode('utf-8'))
             client.close()
             return
@@ -18,12 +17,19 @@ def handle_client(client, addr):
         remove_client(client)
         return
 
+    username = client.recv(2048).decode('utf-8')
+    usernames[client] = username
+    clients.append(client)
+
+    broadcast(f"{username} entrou no chat.", client)
+
     while True:
         try:
             msg = client.recv(2048).decode('utf-8')
 
             if msg.startswith('@sair'):
-                print(f"{addr} saiu do chat.")
+                print(f"{username} saiu do chat.")
+                broadcast(f"{username} saiu do chat.", client)
                 remove_client(client)
                 break
 
@@ -31,42 +37,31 @@ def handle_client(client, addr):
                 mensagem_privada = msg[9:].strip()
                 if ' ' in mensagem_privada:
                     destinatario, mensagem = mensagem_privada.split(' ', 1)
-                    enviar_privado(mensagem, client, destinatario)
+                    enviar_privado(f"[Privado de {username}] {mensagem}", client, destinatario)
                 else:
                     print(f"Mensagem privada mal formatada: {msg}")
             else:
-                broadcast(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {msg}", client)
+                broadcast(msg, client)
 
         except:
+            broadcast(f"{username} desconectou inesperadamente.", client)
             remove_client(client)
             break
 
 def enviar_privado(msg, sender, destinatario):
     destinatario_client = None
-    for client in clients:
-        try:
-            # Encontra o cliente pelo nome
-            if client.getpeername()[0] == destinatario:
-                destinatario_client = client
-                break
-        except:
-            continue
+    for client, name in usernames.items():
+        if name == destinatario:
+            destinatario_client = client
+            break
 
     if destinatario_client:
         try:
-            destinatario_client.send(f"[Privado] {msg}".encode('utf-8'))
+            destinatario_client.send(msg.encode('utf-8'))
         except:
             remove_client(destinatario_client)
-
-
-def enviar_privado(msg, sender, destinatario):
-    destinatario_client = usernames.get(destinatario)
-
-    if destinatario_client:
-        try:
-            destinatario_client.send(f"[Privado] {msg}".encode('utf-8'))
-        except:
-            remove_client(destinatario_client)
+    else:
+        sender.send(f"Usuário '{destinatario}' não encontrado.".encode('utf-8'))
 
 def broadcast(msg, sender):
     for client in clients:
@@ -76,23 +71,13 @@ def broadcast(msg, sender):
             except:
                 remove_client(client)
 
-def enviar_privado(msg, sender, destinatario):
-    destinatario_client = None
-    for client in clients:
-        if client.getpeername()[0] == destinatario:
-            destinatario_client = client
-            break
-
-    if destinatario_client:
-        try:
-            destinatario_client.send(f"[Privado] {msg}".encode('utf-8'))
-        except:
-            remove_client(destinatario_client)
-
 def remove_client(client):
     if client in clients:
         clients.remove(client)
+        username = usernames.get(client, "Desconhecido")
+        del usernames[client]
         client.close()
+        broadcast(f"{username} saiu do chat.", client)
 
 def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -105,7 +90,6 @@ def main():
 
     while True:
         client, addr = server.accept()
-        clients.append(client)
         print(f"Cliente {addr} conectado.")
 
         thread = threading.Thread(target=handle_client, args=(client, addr))
