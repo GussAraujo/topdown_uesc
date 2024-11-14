@@ -1,5 +1,6 @@
 import socket
 import threading
+from datetime import datetime
 
 def main():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -11,33 +12,62 @@ def main():
         except:
             print('\nTentando se conectar ao servidor...\n')
 
+    senha = input("Digite a senha para entrar: ")
+    client.send(senha.encode('utf-8'))
+    resposta = client.recv(2048).decode('utf-8')
+    if resposta == "Senha incorreta. Conexão recusada.":
+        print(resposta)
+        client.close()
+        return
+
+    print(resposta)
     username = input('Usuário> ')
     print('\nConectado..............')
 
-    thread1 = threading.Thread(target=receiveMessages, args=[client])
-    thread2 = threading.Thread(target=sendMessages, args=[client, username])
+    thread1 = threading.Thread(target=receive_messages, args=(client,))
+    thread2 = threading.Thread(target=send_messages, args=(client, username))
 
     thread1.start()
     thread2.start()
 
-def receiveMessages(client):
+def receive_messages(client):
     while True:
         try:
             msg = client.recv(2048).decode('utf-8')
-            print(msg+'\n')
+            print(f"\n{msg}\n")
         except:
-            print('\nNão foi possível permanecer conectado no servidor!\n')
+            print('\nNão foi possível permanecer conectado ao servidor!\n')
             print('Pressione <Enter> Para continuar...')
             client.close()
             break
 
 
-def sendMessages(client, username):
+def send_messages(client, username):
     while True:
         try:
-            msg = input('Digite uma mensagem: ')
-            client.send(f'<{username}> {msg}'.encode('utf-8'))
+            msg = input('Digite uma mensagem ou comando: ')
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+            if msg.startswith('@sair'):
+                client.send('@sair'.encode('utf-8'))
+                print("Saindo do chat...")
+                client.close()
+                break
+
+            elif msg.startswith('@privado:'):
+                mensagem_privada = msg[9:].strip()
+                if ' ' in mensagem_privada:
+                    destinatario, mensagem = mensagem_privada.split(' ', 1)
+                    client.send(f'@privado: {destinatario} {mensagem}'.encode('utf-8'))
+                else:
+                    print("Erro: Mensagem privada não formatada corretamente.")
+            else:
+                client.send(f'[{timestamp}] <{username}> {msg}'.encode('utf-8'))
+
         except:
+            client.close()
             return
+
+
 
 main()
